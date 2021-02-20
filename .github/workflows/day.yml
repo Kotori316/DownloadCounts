@@ -24,11 +24,11 @@ jobs:
       - name: Show
         run: |
           file_name=$(date "+%Y-%m").csv
-          echo "---------- Additional Enchanted Miner ----------"
+          echo "\n---------- Additional Enchanted Miner ----------"
           cat "Additional Enchanted Miner/$file_name"
-          echo "---------- Large Fluid Tank ----------"
+          echo "\n---------- Large Fluid Tank ----------"
           cat "Large Fluid Tank/$file_name"
-          echo "---------- Scalable Cat's Force ----------"
+          echo "\n---------- Scalable Cat's Force ----------"
           cat "Scalable Cat's Force/$file_name"
       - name: Git Commit
         run: |
