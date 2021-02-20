@@ -32,8 +32,8 @@ jobs:
           cat "Scalable Cat's Force/$file_name"
       - name: Git Commit
         run: |
-          git config --local user.email "Kotori316@users.noreply.github.com"
-          git config --local user.name "Kotori316"
+          git config --local user.email "Kotori316+action-bot@gmail.com"
+          git config --local user.name "Kotori316+action-bot"
           git commit -m $(date -I) -a
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.6.0
