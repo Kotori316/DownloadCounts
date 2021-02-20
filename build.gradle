@@ -1,9 +1,13 @@
 plugins {
-    id 'java'
+    id 'application'
 }
 
 group 'com.kotori316'
 version '1.0-SNAPSHOT'
+
+application {
+    mainClass.set('com.kotori316.dl.Main2')
+}
 
 repositories {
     mavenCentral()
@@ -16,8 +20,6 @@ dependencies {
     implementation("com.github.TheRandomLabs:CurseAPI:master-SNAPSHOT")
 // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
     implementation(group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.0-alpha1')
-
-
 }
 
 test {

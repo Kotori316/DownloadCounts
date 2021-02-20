@@ -32,12 +32,12 @@ public class Main2 {
                         var lastLine = lines.get(lines.size() - 1);
                         Matcher matcher = CSV_ENTRY.matcher(lastLine);
                         if (matcher.matches()) {
-                            lastDownload = Integer.parseInt(matcher.group(2));
+                            lastDownload = Integer.parseInt(matcher.group(3));
                         }
                     }
                     try (var writer = Files.newBufferedWriter(csvPath, StandardOpenOption.APPEND)) {
                         writer.newLine();
-                        writer.write(String.format("%s,%d,%d", time.format(DateTimeFormatter.ISO_LOCAL_DATE), count - lastDownload, count));
+                        writer.write(String.format("%s,%d,%d", time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME), count - lastDownload, count));
                     }
                 } catch (IOException e) {
                     throw new UncheckedIOException(e);
@@ -46,7 +46,6 @@ public class Main2 {
         }
         System.exit(0);
     }
-
 
     static Path createCsv(String projectName, ZonedDateTime time) {
         Path csvPath = Path.of(projectName, time.format(format) + ".csv");
