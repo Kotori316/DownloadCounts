@@ -38,7 +38,7 @@ public class Main {
         for (String project : projects) {
             var uri = BASE_URI + project;
             driver.get(uri);
-            System.out.printf("Accessed to %s", uri);
+            System.out.printf("Accessed to %s\n", uri);
             try {
                 Thread.sleep(3000L);
                 var screenshot = driver.getScreenshotAs(OutputType.FILE).toPath();

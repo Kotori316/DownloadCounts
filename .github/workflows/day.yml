@@ -76,7 +76,8 @@ jobs:
         run: |
           git config --local user.email "Kotori316+action-bot@gmail.com"
           git config --local user.name "Kotori316+action-bot"
-          git commit -m $(date -I) -a
+          git add .
+          git commit -m $(date -I)
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.6.0
         with:
