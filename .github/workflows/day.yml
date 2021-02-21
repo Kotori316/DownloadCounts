@@ -53,8 +53,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Build
-        run:
       - name: RUN
         run: |
           Xvfb :99 -screen 0 1920x1080x16 &
