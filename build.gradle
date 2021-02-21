@@ -6,7 +6,8 @@ group 'com.kotori316'
 version '1.0-SNAPSHOT'
 
 application {
-    mainClass.set('com.kotori316.dl.Main')
+    println("Main Class: ${System.getenv("main_class")}")
+    mainClass.set(System.getenv("main_class") ?: 'com.kotori316.dl.Main2')
 }
 
 repositories {
