@@ -6,7 +6,7 @@ group 'com.kotori316'
 version '1.0-SNAPSHOT'
 
 application {
-    mainClass.set('com.kotori316.dl.Main2')
+    mainClass.set('com.kotori316.dl.Main')
 }
 
 repositories {
@@ -18,8 +18,13 @@ repositories {
 
 dependencies {
     implementation("com.github.TheRandomLabs:CurseAPI:master-SNAPSHOT")
-// https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
     implementation(group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.0-alpha1')
+
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.+'
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-chrome-driver
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.+'
 }
 
 test {
