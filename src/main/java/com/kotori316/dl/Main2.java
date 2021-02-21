@@ -10,7 +10,7 @@ public class Main2 {
 
     public static void main(String[] args) throws CurseException {
         var time = ZonedDateTime.now();
-        var projectIDs = List.of(282837, 291006, 320926, 289078, 312222, 411564);
+        var projectIDs = List.of(282837, 291006, 320926);
         for (int id : projectIDs) {
             CurseAPI.project(id).ifPresent(p -> Output.appendCsv(time, p.name(), p.downloadCount()));
         }

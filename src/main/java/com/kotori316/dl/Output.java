@@ -53,7 +53,7 @@ public class Output {
 
     static void appendCsv(ZonedDateTime time, String name, int count) {
         var csvPath = createCsv(name, time);
-        int lastDownload = 0;
+        int lastDownload = count;
         try {
             var lines = Files.readAllLines(csvPath);
             if (lines.size() > 1) {
