@@ -5,7 +5,7 @@ name: Day Update
 
 on:
   schedule:
-    - cron: "15 21 * * *"
+    - cron: "15 9,21 * * *"
   workflow_dispatch:
 
 jobs:
@@ -59,7 +59,7 @@ jobs:
           git config --local user.email "Kotori316+action-bot@gmail.com"
           git config --local user.name "Kotori316+action-bot"
           git add .
-          git commit -m $(date -I)
+          git commit -m $(date "+%Y-%m-%dT%H:%M")
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.6.0
         with:
