@@ -23,7 +23,8 @@ public class Main {
         if (System.getenv("OS") != null && System.getenv("OS").contains("Win") && System.getProperty("webdriver.chrome.driver") == null) {
             System.setProperty("webdriver.chrome.driver", "C:\\ProgramWorks\\utils\\chromedriver.exe");
         }
-        var projects = List.of("additional-enchanted-miner", "largefluidtank", "infchest", "largefluidtank-fabric", "scalable-cats-force", "planting-dirt-for-saplings");
+        var projects = List.of("additional-enchanted-miner", "largefluidtank", "infchest", "largefluidtank-fabric", 
+                               "scalable-cats-force", "planting-dirt-for-saplings", "limit-mob-spawn");
         var counts = getDownloadCounts(projects);
         System.out.println(counts);
         Output.appendAll(time, counts);
