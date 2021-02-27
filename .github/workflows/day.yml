@@ -57,7 +57,7 @@ jobs:
       - name: Git Commit
         run: |
           git config --local user.email "Kotori316+action-bot@gmail.com"
-          git config --local user.name "Kotori316+action-bot"
+          git config --local user.name "Kotori316"
           git add .
           git commit -m $(date "+%Y-%m-%dT%H:%M")
       - name: GitHub Push
