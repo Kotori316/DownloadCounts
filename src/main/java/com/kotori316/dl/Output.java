@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.time.temporal.ChronoField.HOUR_OF_DAY;
 import static java.time.temporal.ChronoField.MINUTE_OF_HOUR;
@@ -19,7 +20,7 @@ import static java.time.temporal.ChronoField.SECOND_OF_MINUTE;
 public class Output {
 
     private static final DateTimeFormatter YEAR_MONTH = DateTimeFormatter.ofPattern("yyyy-MM");
-    private static final Pattern CSV_ENTRY = Pattern.compile("(.+),(\\d+),(\\d+)");
+    private static final Pattern CSV_ENTRY = Pattern.compile("(.+),(\\d+),(\\d+),(\\d+)");
     private static final DateTimeFormatter LOCAL_DATE = new DateTimeFormatterBuilder()
         .parseCaseInsensitive()
         .append(DateTimeFormatter.ISO_LOCAL_DATE)
@@ -42,7 +43,7 @@ public class Output {
                 try (
                     var buffer = Files.newBufferedWriter(csvPath)
                 ) {
-                    buffer.write("Date,Download,Total");
+                    buffer.write("Date,Download,Total,Monthly");
                 }
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
@@ -54,6 +55,7 @@ public class Output {
     static void appendCsv(ZonedDateTime time, String name, int count) {
         var csvPath = createCsv(name, time);
         int lastDownload = count;
+        int lastMonthly = 0;
         try {
             var lines = Files.readAllLines(csvPath);
             if (lines.size() > 1) {
@@ -61,11 +63,25 @@ public class Output {
                 Matcher matcher = CSV_ENTRY.matcher(lastLine);
                 if (matcher.matches()) {
                     lastDownload = Integer.parseInt(matcher.group(3));
+                    lastMonthly = Integer.parseInt(matcher.group(4));
+                }
+            } else if (lines.size() == 1) {
+                // First line of new month, so we get last entry of last month.
+                var lastMonthPath = Path.of(name, time.minusWeeks(1).format(YEAR_MONTH) + ".csv");
+                if (Files.exists(lastMonthPath)) {
+                    var lastLines = Files.readAllLines(lastMonthPath).stream().filter(s -> !s.isEmpty()).collect(Collectors.toUnmodifiableList());
+                    var lastLine = lastLines.get(lastLines.size() - 1);
+                    var matcher = CSV_ENTRY.matcher(lastLine);
+                    if (matcher.matches()) {
+                        lastDownload = Integer.parseInt(matcher.group(3));
+                        lastMonthly = Integer.parseInt(matcher.group(4));
+                    }
                 }
             }
             try (var writer = Files.newBufferedWriter(csvPath, StandardOpenOption.APPEND)) {
                 writer.newLine();
-                writer.write(String.format("%s,%d,%d", time.format(LOCAL_DATE), count - lastDownload, count));
+                var todayCount = count - lastDownload;
+                writer.write(String.format("%s,%d,%d,%d", time.format(LOCAL_DATE), todayCount, count, lastMonthly + todayCount));
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);

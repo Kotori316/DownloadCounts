@@ -7,7 +7,7 @@ version '1.0-SNAPSHOT'
 
 application {
     println("Main Class: ${System.getenv("main_class")}")
-    mainClass.set(System.getenv("main_class") ?: 'com.kotori316.dl.Main2')
+    mainClass.set(System.getenv("main_class") ?: 'com.kotori316.dl.Main')
 }
 
 repositories {

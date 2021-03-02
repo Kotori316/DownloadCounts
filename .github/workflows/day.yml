@@ -12,6 +12,8 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
+      - name: Date
+        run: date
       - uses: actions/checkout@v2
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -57,10 +59,15 @@ jobs:
       - name: Git Commit
         run: |
           git config --local user.email "Kotori316+action-bot@gmail.com"
-          git config --local user.name "Kotori316"
+          git config --local user.name "BOT"
           git add .
-          git commit -m $(date "+%Y-%m-%dT%H:%M")
+          git commit -m $(date --date='9 hours' "+%Y-%m-%dT%H:%M")
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Screenshot
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          path: "**/*.png"
