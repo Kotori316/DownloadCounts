@@ -5,6 +5,7 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -44,6 +45,7 @@ public class Output {
                     var buffer = Files.newBufferedWriter(csvPath)
                 ) {
                     buffer.write("Date,Download,Total,Monthly");
+                    buffer.newLine();
                 }
             } catch (IOException e) {
                 throw new UncheckedIOException(e);
@@ -57,7 +59,9 @@ public class Output {
         int lastDownload = count;
         int lastMonthly = 0;
         try {
-            var lines = Files.readAllLines(csvPath);
+            var allLines = Files.readAllLines(csvPath);
+            boolean newLineFlag = !allLines.get(allLines.size() - 1).isEmpty();
+            var lines = allLines.stream().filter(s -> !s.isEmpty()).collect(Collectors.toUnmodifiableList());
             if (lines.size() > 1) {
                 var lastLine = lines.get(lines.size() - 1);
                 Matcher matcher = CSV_ENTRY.matcher(lastLine);
@@ -79,9 +83,9 @@ public class Output {
                 }
             }
             try (var writer = Files.newBufferedWriter(csvPath, StandardOpenOption.APPEND)) {
-                writer.newLine();
+                if (newLineFlag) writer.newLine();
                 var todayCount = count - lastDownload;
-                writer.write(String.format("%s,%d,%d,%d", time.format(LOCAL_DATE), todayCount, count, lastMonthly + todayCount));
+                writer.write(String.format("%s,%d,%d,%d%n", time.withZoneSameInstant(ZoneOffset.UTC).format(LOCAL_DATE), todayCount, count, lastMonthly + todayCount));
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
