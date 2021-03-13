@@ -60,7 +60,6 @@ public class Output {
         int lastMonthly = 0;
         try {
             var allLines = Files.readAllLines(csvPath);
-            boolean newLineFlag = !allLines.get(allLines.size() - 1).isEmpty();
             var lines = allLines.stream().filter(s -> !s.isEmpty()).collect(Collectors.toUnmodifiableList());
             if (lines.size() > 1) {
                 var lastLine = lines.get(lines.size() - 1);
@@ -83,7 +82,6 @@ public class Output {
                 }
             }
             try (var writer = Files.newBufferedWriter(csvPath, StandardOpenOption.APPEND)) {
-                if (newLineFlag) writer.newLine();
                 var todayCount = count - lastDownload;
                 writer.write(String.format("%s,%d,%d,%d%n", time.withZoneSameInstant(ZoneOffset.UTC).format(LOCAL_DATE), todayCount, count, lastMonthly + todayCount));
             }
